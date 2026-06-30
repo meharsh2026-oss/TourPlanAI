@@ -31,25 +31,33 @@ const Planner = {
 
     updateRow(row, month, year){
 
-        if(!row[0]) return row;
+    if(!row[0]) return row;
 
-        let oldDate = new Date(row[0]);
+    let oldDate = new Date(row[0]);
 
-        if(isNaN(oldDate)) return row;
+    if(isNaN(oldDate)) return row;
 
-        let day = oldDate.getDate();
+    let day = oldDate.getDate();
 
-        let newDate = new Date(
-            Number(year),
-            this.monthMap[month],
-            day
-        );
+    let newDate = new Date(
+        Number(year),
+        this.monthMap[month],
+        day
+    );
 
-        row[0] = newDate;
+    row[0] = newDate;
+    row[1] = this.days[newDate.getDay()];
 
-        row[1] = this.days[newDate.getDay()];
+    // Sunday Rule
+    if(newDate.getDay() === 0){
 
-        return row;
+        for(let i = 2; i < row.length; i++){
+            row[i] = "";
+        }
+
+    }
+
+    return row;
 
     }
 
