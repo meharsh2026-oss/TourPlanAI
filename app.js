@@ -55,10 +55,17 @@ alert("Generate button clicked");
 
     console.log(json);
 
-    status.innerHTML=
-    "🤖 AI Analysing Workbook...<br><br>" +
-    "Rows Found : "+json.length+
-    "<br>First Sheet : "+sheetName+
-    "<br><br>Open Browser Console to view data.";
+    let preview="<br><br>";
 
+for(let i=0;i<10 && i<json.length;i++){
+
+    preview+=JSON.stringify(json[i])+"<br>";
+
+}
+
+status.innerHTML=
+"🤖 AI Analysing Workbook...<br><br>"+
+"Rows : "+json.length+
+"<br>Sheet : "+sheetName+
+preview;
 });
