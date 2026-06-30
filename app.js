@@ -1,3 +1,4 @@
+alert("New app.js loaded");
 const fileInput = document.getElementById("excelFile");
 const generateBtn = document.getElementById("generateBtn");
 const status = document.getElementById("status");
