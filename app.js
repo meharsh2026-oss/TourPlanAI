@@ -73,6 +73,10 @@ fileInput.addEventListener("change", async function(e){
 
 generateBtn.addEventListener("click", () => {
 
+    console.log(workbook);
+
+    ...
+});
     if (!workbook) {
         alert("Please upload an Excel file first.");
         return;
