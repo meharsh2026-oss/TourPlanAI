@@ -1,17 +1,17 @@
 const fileInput = document.getElementById("excelFile");
 const generateBtn = document.getElementById("generateBtn");
-const statusText = document.getElementById("status");
+const status = document.getElementById("status");
 
 let workbook = null;
 
-fileInput.addEventListener("change", handleFile);
+// Read Excel File
+fileInput.addEventListener("change", (e) => {
 
-function handleFile(e) {
     const file = e.target.files[0];
 
     if (!file) return;
 
-    statusText.innerHTML = "📂 Reading Excel...";
+    status.innerHTML = "📂 Reading Excel file...";
 
     const reader = new FileReader();
 
@@ -23,31 +23,32 @@ function handleFile(e) {
             type:"array"
         });
 
-        statusText.innerHTML =
-        "✅ Workbook Loaded<br><br>" +
-        "Sheets:<br>" +
+        status.innerHTML =
+        "✅ Excel Loaded Successfully<br><br>" +
+        "📑 Sheets:<br>" +
         workbook.SheetNames.join("<br>");
     };
 
     reader.readAsArrayBuffer(file);
-}
 
+});
+
+// Generate Button
 generateBtn.addEventListener("click",()=>{
 
-    if(!workbook){
+    if(workbook==null){
 
         alert("Please upload an Excel file first.");
 
         return;
+
     }
 
-    statusText.innerHTML="🤖 AI is analysing workbook...";
+    status.innerHTML="🤖 AI is analysing your workbook...";
 
     setTimeout(()=>{
 
-        statusText.innerHTML=
-        "✅ Workbook Ready<br>" +
-        "Next update will modify dates automatically.";
+        status.innerHTML+="<br><br>✅ Workbook Ready";
 
     },2000);
 
