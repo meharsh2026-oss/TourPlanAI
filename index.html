@@ -2,21 +2,37 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourPlan AI - AI Powered Excel Automation</title>
 
-<title>TourPlan AI</title>
+    <meta name="theme-color" content="#0F172A">
 
-<meta name="theme-color" content="#0b1020">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00E5FF",
+                        secondary: "#7C3AED",
+                        dark: "#050816"
+                    },
+                    fontFamily: {
+                        sans: ["Inter","sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 
-<link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
 
 </head>
 
