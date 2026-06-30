@@ -1,6 +1,6 @@
-// ======================================
-// TourPlan AI - Excel Engine V2
-// ======================================
+// ==========================================
+// TourPlan AI - excel.js
+// ==========================================
 
 const TourPlanEngine = {
 
@@ -13,25 +13,9 @@ const TourPlanEngine = {
 
         this.workbook = workbook;
 
-        this.findSheet();
+        this.sheetName = workbook.SheetNames[0];
 
-        this.readRows();
-
-    },
-
-    findSheet(){
-
-    this.sheetName = this.workbook.SheetNames[0];
-
-    this.sheet = this.workbook.Sheets[this.sheetName];
-
-}
-
-        throw new Error("Tour Plan sheet not found.");
-
-    },
-
-    readRows(){
+        this.sheet = workbook.Sheets[this.sheetName];
 
         this.rows = XLSX.utils.sheet_to_json(
             this.sheet,
@@ -40,19 +24,9 @@ const TourPlanEngine = {
 
     },
 
-    updateDates(month,year){
+    updateDates(monthName, year){
 
-        const days=[
-            "SUNDAY",
-            "MONDAY",
-            "TUESDAY",
-            "WEDNESDAY",
-            "THURSDAY",
-            "FRIDAY",
-            "SATURDAY"
-        ];
-
-        const monthNumber={
+        const months = {
             January:0,
             February:1,
             March:2,
@@ -67,58 +41,80 @@ const TourPlanEngine = {
             December:11
         };
 
-        const targetMonth=monthNumber[month];
+        const days = [
+            "SUNDAY",
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY"
+        ];
 
-        this.rows[r] = Planner.updateRow(
-    this.rows[r],
-    month,
-    year
-);
+        const month = months[monthName];
 
-            const cell=this.rows[r][0];
+        const lastDay = new Date(
+            Number(year),
+            month + 1,
+            0
+        ).getDate();
 
-            if(!cell) continue;
+        for(let r=5;r<this.rows.length;r++){
 
-            let date;
+            const row = this.rows[r];
 
-            if(cell instanceof Date){
+            if(!row || !row[0]) continue;
 
-                date=new Date(cell);
+            const oldDate = new Date(row[0]);
 
-            }else{
+            if(isNaN(oldDate)) continue;
 
-                date=new Date(cell);
+            const date = oldDate.getDate();
+
+            if(date>lastDay){
+
+                this.rows.splice(r,1);
+
+                r--;
+
+                continue;
 
             }
 
-            if(isNaN(date)) continue;
-
-            const day=date.getDate();
-
-            const newDate=new Date(
+            const newDate = new Date(
                 Number(year),
-                targetMonth,
-                day
+                month,
+                date
             );
 
-            this.rows[r][0]=newDate;
+            row[0]=newDate;
 
-            this.rows[r][1]=
-            days[newDate.getDay()];
+            row[1]=days[newDate.getDay()];
+
+            if(newDate.getDay()==0){
+
+                for(let c=2;c<row.length;c++){
+
+                    row[c]="";
+
+                }
+
+            }
 
         }
 
     },
 
     save(){
-        this.rows = ValueEngine.update(this.rows);
 
-        const newSheet =
-            XLSX.utils.aoa_to_sheet(this.rows);
+        this.sheet =
+            XLSX.utils.aoa_to_sheet(
+                this.rows
+            );
 
         this.workbook.Sheets[
             this.sheetName
-        ] = newSheet;
+        ]=this.sheet;
 
         return this.workbook;
 
