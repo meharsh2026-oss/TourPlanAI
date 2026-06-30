@@ -1,71 +1,70 @@
-alert("New app.js loaded");
-const fileInput = document.getElementById("excelFile");
-const generateBtn = document.getElementById("generateBtn");
-const status = document.getElementById("status");
-const month = document.getElementById("month");
-const year = document.getElementById("year");
+// ====================================================
+// TourPlan AI - app.js
+// Version 1.0
+// ====================================================
 
+// Global variables
 let workbook = null;
+let worksheet = null;
+let jsonData = [];
 
-fileInput.addEventListener("change", function(e){
+const fileInput = document.getElementById("excelFile");
+const monthSelect = document.getElementById("month");
+const yearInput = document.getElementById("year");
+const generateBtn = document.getElementById("generateBtn");
+
+// Workbook info
+const fileName = document.getElementById("fileName");
+const sheetName = document.getElementById("sheetName");
+const rowCount = document.getElementById("rowCount");
+const selectedMonth = document.getElementById("selectedMonth");
+
+// AI panel
+const aiSteps = document.getElementById("aiSteps");
+const progressBar = document.getElementById("progressBar");
+
+function updateAI(message, progress) {
+    aiSteps.innerHTML = `<p>🤖 ${message}</p>`;
+    progressBar.style.width = progress + "%";
+}
+
+fileInput.addEventListener("change", loadWorkbook);
+
+async function loadWorkbook(e) {
 
     const file = e.target.files[0];
 
-    if(!file) return;
+    if (!file) return;
 
-    status.innerHTML="📂 Reading Excel...";
+    updateAI("Reading Workbook...", 15);
 
-    const reader=new FileReader();
+    const data = await file.arrayBuffer();
 
-    reader.onload=function(event){
+    workbook = XLSX.read(data);
 
-        const data=new Uint8Array(event.target.result);
+    const firstSheet = workbook.SheetNames[0];
 
-        workbook=XLSX.read(data,{type:"array"});
+    worksheet = workbook.Sheets[firstSheet];
 
-        status.innerHTML=
-        "✅ Excel Loaded Successfully<br><br>" +
-        "Sheets:<br>" +
-        workbook.SheetNames.join("<br>");
-
-    };
-
-    reader.readAsArrayBuffer(file);
-
-});
-
-generateBtn.addEventListener("click",function(){
-
-alert("Generate button clicked");
-    if(!workbook){
-
-        alert("Please upload Excel first.");
-
-        return;
-
-    }
-
-    const sheetName=workbook.SheetNames[0];
-
-    const worksheet=workbook.Sheets[sheetName];
-
-    const json=XLSX.utils.sheet_to_json(worksheet,{
-        header:1
+    jsonData = XLSX.utils.sheet_to_json(worksheet, {
+        header: 1
     });
 
-    console.log(json);
-
-    let preview="<br><br>";
-
-for(let i=0;i<10 && i<json.length;i++){
-
-    preview+=JSON.stringify(json[i])+"<br>";
+    updateWorkbookInfo(file.name, firstSheet, jsonData.length);
 
 }
 
-status.innerHTML=
-"🤖 AI Analysing Workbook...<br><br>"+
-"Rows : "+json.length+
-"<br>Sheet : "+sheetName+
-preview;
-});
+function updateWorkbookInfo(file, sheet, rows){
+
+    fileName.textContent = file;
+
+    sheetName.textContent = sheet;
+
+    rowCount.textContent = rows;
+
+    selectedMonth.textContent =
+        monthSelect.value + " " + yearInput.value;
+
+    updateAI("Workbook Loaded Successfully",100);
+
+}
