@@ -1,55 +1,62 @@
 const fileInput = document.getElementById("excelFile");
 const generateBtn = document.getElementById("generateBtn");
 const status = document.getElementById("status");
+const month = document.getElementById("month");
+const year = document.getElementById("year");
 
 let workbook = null;
 
-// Read Excel File
-fileInput.addEventListener("change", (e) => {
+fileInput.addEventListener("change", function(e){
 
     const file = e.target.files[0];
 
-    if (!file) return;
+    if(!file) return;
 
-    status.innerHTML = "📂 Reading Excel file...";
+    status.innerHTML="📂 Reading Excel...";
 
-    const reader = new FileReader();
+    const reader=new FileReader();
 
-    reader.onload = function(event){
+    reader.onload=function(event){
 
-        const data = new Uint8Array(event.target.result);
+        const data=new Uint8Array(event.target.result);
 
-        workbook = XLSX.read(data,{
-            type:"array"
-        });
+        workbook=XLSX.read(data,{type:"array"});
 
-        status.innerHTML =
+        status.innerHTML=
         "✅ Excel Loaded Successfully<br><br>" +
-        "📑 Sheets:<br>" +
+        "Sheets:<br>" +
         workbook.SheetNames.join("<br>");
+
     };
 
     reader.readAsArrayBuffer(file);
 
 });
 
-// Generate Button
-generateBtn.addEventListener("click",()=>{
+generateBtn.addEventListener("click",function(){
 
-    if(workbook==null){
+    if(!workbook){
 
-        alert("Please upload an Excel file first.");
+        alert("Please upload Excel first.");
 
         return;
 
     }
 
-    status.innerHTML="🤖 AI is analysing your workbook...";
+    const sheetName=workbook.SheetNames[0];
 
-    setTimeout(()=>{
+    const worksheet=workbook.Sheets[sheetName];
 
-        status.innerHTML+="<br><br>✅ Workbook Ready";
+    const json=XLSX.utils.sheet_to_json(worksheet,{
+        header:1
+    });
 
-    },2000);
+    console.log(json);
+
+    status.innerHTML=
+    "🤖 AI Analysing Workbook...<br><br>" +
+    "Rows Found : "+json.length+
+    "<br>First Sheet : "+sheetName+
+    "<br><br>Open Browser Console to view data.";
 
 });
