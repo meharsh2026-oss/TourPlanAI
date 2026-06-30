@@ -76,7 +76,7 @@ transform:scale(1.03);
 
 <input type="file" id="excelFile" accept=".xlsx">
 
-<select>
+<select id="month">
 
 <option>January</option>
 <option>February</option>
@@ -96,7 +96,9 @@ transform:scale(1.03);
 <input type="number" placeholder="Year" value="2026">
 
 <button id="generateBtn">Generate Tour Plan</button>
+<div id="status"></div>
 </div>
-
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
