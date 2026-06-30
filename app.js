@@ -31,6 +31,8 @@ function updateAI(message, progress){
 
 fileInput.addEventListener("change", async function(e){
 
+    alert("File change detected");
+
     const file = e.target.files[0];
 
     if(!file) return;
