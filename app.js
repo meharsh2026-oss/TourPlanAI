@@ -71,28 +71,34 @@ fileInput.addEventListener("change", async function(e){
 
 });
 
-generateBtn.addEventListener("click",function(){
+generateBtn.addEventListener("click", () => {
 
-    if(!workbook){
+    try {
 
-        alert("Please upload an Excel file first.");
+        TourPlanEngine.load(workbook);
 
-        return;
+        TourPlanEngine.updateDates(
+            monthSelect.value,
+            yearInput.value
+        );
+
+        const newWorkbook = TourPlanEngine.save();
+
+        XLSX.writeFile(
+            newWorkbook,
+            `TourPlan_${monthSelect.value}_${yearInput.value}.xlsx`
+        );
+
+        alert("Success!");
+
+    } catch (err) {
+
+        alert(err.message);
+
+        console.error(err);
 
     }
 
-    TourPlanEngine.load(workbook);
-
-TourPlanEngine.updateDates(
-    monthSelect.value,
-    yearInput.value
-);
-
-const newWorkbook = TourPlanEngine.save();
-
-XLSX.writeFile(
-    newWorkbook,
-    `TourPlan_${monthSelect.value}_${yearInput.value}.xlsx`
-);
+});
 
 });
