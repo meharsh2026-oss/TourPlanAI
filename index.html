@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TourPlan AI</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+overflow:hidden;
+}
+
+.card{
+width:90%;
+max-width:420px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+padding:30px;
+border-radius:25px;
+box-shadow:0 0 40px rgba(0,255,255,.2);
+text-align:center;
+}
+
+h1{
+font-size:36px;
+margin-bottom:10px;
+}
+
+p{
+opacity:.8;
+margin-bottom:25px;
+}
+
+input,select,button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:15px;
+font-size:16px;
+}
+
+button{
+background:#00e5ff;
+color:#000;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+transform:scale(1.03);
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+
+<h1>🤖 TourPlan AI</h1>
+
+<p>Generate Monthly Tour Plan using AI</p>
+
+<input type="file">
+
+<select>
+
+<option>January</option>
+<option>February</option>
+<option>March</option>
+<option>April</option>
+<option>May</option>
+<option>June</option>
+<option>July</option>
+<option>August</option>
+<option>September</option>
+<option>October</option>
+<option>November</option>
+<option>December</option>
+
+</select>
+
+<input type="number" placeholder="Year" value="2026">
+
+<button>Generate Tour Plan</button>
+
+</div>
+
+</body>
+</html>
