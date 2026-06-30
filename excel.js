@@ -111,6 +111,7 @@ const TourPlanEngine = {
     },
 
     save(){
+        this.rows = ValueEngine.update(this.rows);
 
         const newSheet =
             XLSX.utils.aoa_to_sheet(this.rows);
