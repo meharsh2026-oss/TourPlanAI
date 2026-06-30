@@ -73,29 +73,44 @@ fileInput.addEventListener("change", async function(e){
 
 generateBtn.addEventListener("click", () => {
 
+    if (!workbook) {
+        alert("Please upload an Excel file first.");
+        return;
+    }
+
     try {
 
+        updateAI("Reading Workbook...",20);
+
         TourPlanEngine.load(workbook);
+
+        updateAI("Updating Dates...",40);
 
         TourPlanEngine.updateDates(
             monthSelect.value,
             yearInput.value
         );
 
+        updateAI("Applying VALUE Rules...",70);
+
         const newWorkbook = TourPlanEngine.save();
+
+        updateAI("Generating Excel...",90);
 
         XLSX.writeFile(
             newWorkbook,
             `TourPlan_${monthSelect.value}_${yearInput.value}.xlsx`
         );
 
-        alert("Success!");
+        updateAI("Completed Successfully ✅",100);
 
-    } catch (err) {
+        alert("Tour Plan Generated Successfully!");
 
-        alert(err.message);
+    } catch(err){
 
         console.error(err);
+
+        alert(err.message);
 
     }
 
