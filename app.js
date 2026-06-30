@@ -92,3 +92,72 @@ fileInput.addEventListener("change", async (e)=>{
     }
 
 });
+// ==========================================
+// TourPlan AI - app.js (Part 2)
+// ==========================================
+
+generateBtn.addEventListener("click", () => {
+
+    if (!workbook) {
+        alert("Please upload an Excel file first.");
+        return;
+    }
+
+    try {
+
+        updateAI("Loading Tour Plan...", 20);
+
+        TourPlanEngine.load(workbook);
+
+        updateAI("Updating Dates...", 40);
+
+        TourPlanEngine.updateDates(
+            monthSelect.value,
+            yearInput.value
+        );
+
+        updateAI("Saving Workbook...", 70);
+
+        const newWorkbook = TourPlanEngine.save();
+
+        updateAI("Downloading Excel...", 90);
+
+        const outputFile =
+            `TourPlan_${monthSelect.value}_${yearInput.value}.xlsx`;
+
+        XLSX.writeFile(newWorkbook, outputFile);
+
+        updateAI("Completed Successfully ✅", 100);
+
+        alert("Tour Plan Generated Successfully!");
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("Error: " + err.message);
+
+        updateAI("Generation Failed ❌", 0);
+
+    }
+
+});
+
+// Update month display automatically
+monthSelect.addEventListener("change", () => {
+
+    if (selectedMonth) {
+        selectedMonth.textContent =
+            monthSelect.value + " " + yearInput.value;
+    }
+
+});
+
+yearInput.addEventListener("input", () => {
+
+    if (selectedMonth) {
+        selectedMonth.textContent =
+            monthSelect.value + " " + yearInput.value;
+    }
+
+});
