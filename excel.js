@@ -69,7 +69,11 @@ const TourPlanEngine = {
 
         const targetMonth=monthNumber[month];
 
-        for(let r=5;r<this.rows.length;r++){
+        this.rows[r] = Planner.updateRow(
+    this.rows[r],
+    month,
+    year
+);
 
             const cell=this.rows[r][0];
 
