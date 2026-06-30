@@ -21,32 +21,11 @@ const TourPlanEngine = {
 
     findSheet(){
 
-        const names = this.workbook.SheetNames;
+    this.sheetName = this.workbook.SheetNames[0];
 
-        for(const name of names){
+    this.sheet = this.workbook.Sheets[this.sheetName];
 
-            const ws = this.workbook.Sheets[name];
-
-            const data = XLSX.utils.sheet_to_json(ws,{header:1});
-
-            for(const row of data){
-
-                if(
-                    row.includes("Date") &&
-                    row.includes("Day")
-                ){
-
-                    this.sheetName = name;
-
-                    this.sheet = ws;
-
-                    return;
-
-                }
-
-            }
-
-        }
+}
 
         throw new Error("Tour Plan sheet not found.");
 
