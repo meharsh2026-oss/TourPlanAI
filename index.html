@@ -1,103 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TourPlan AI</title>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
-}
+<meta name="theme-color" content="#0b1020">
 
-body{
-background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-overflow:hidden;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-.card{
-width:90%;
-max-width:420px;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(20px);
-padding:30px;
-border-radius:25px;
-box-shadow:0 0 40px rgba(0,255,255,.2);
-text-align:center;
-}
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-h1{
-font-size:36px;
-margin-bottom:10px;
-}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-p{
-opacity:.8;
-margin-bottom:25px;
-}
-
-input,select,button{
-width:100%;
-padding:15px;
-margin-top:15px;
-border:none;
-border-radius:15px;
-font-size:16px;
-}
-
-button{
-background:#00e5ff;
-color:#000;
-font-weight:bold;
-cursor:pointer;
-}
-
-button:hover{
-transform:scale(1.03);
-}
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
+
 <body>
 
-<div class="card">
+<div class="background">
 
-<h1>🤖 TourPlan AI</h1>
+<div class="blob blob1"></div>
 
-<p>Generate Monthly Tour Plan using AI</p>
+<div class="blob blob2"></div>
 
-<input type="file" id="excelFile" accept=".xlsx">
+<div class="blob blob3"></div>
+
+<div class="grid"></div>
+
+</div>
+
+<header>
+
+<div class="logo">
+
+🤖 TourPlan AI
+
+</div>
+
+<nav>
+
+<a href="#">Home</a>
+
+<a href="#">Features</a>
+
+<a href="#">About</a>
+
+<a href="#">Support</a>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div class="glass">
+
+<div class="badge">
+
+✨ AI Powered Excel Automation
+
+</div>
+
+<h1>
+
+Generate Monthly Tour Plans
+
+<span>Within Seconds</span>
+
+</h1>
+
+<p>
+
+Upload your Tour Plan Excel file.
+
+Select Month and Year.
+
+Our AI automatically updates Dates, Weekdays,
+
+Sunday Plans and VALUE calculations.
+
+</p>
+
+<div class="upload-card">
+
+<label class="upload-area">
+
+<input
+
+type="file"
+
+id="excelFile"
+
+accept=".xlsx"
+
+hidden
+
+>
+
+<div class="upload-icon">
+
+📂
+
+</div>
+
+<h2>
+
+Drop Excel Here
+
+</h2>
+
+<p>
+
+or tap to browse
+
+</p>
+
+</label>
+
+<div class="selectors">
+
+<div>
+
+<label>
+
+Month
+
+</label>
 
 <select id="month">
 
 <option>January</option>
+
 <option>February</option>
+
 <option>March</option>
+
 <option>April</option>
+
 <option>May</option>
+
 <option>June</option>
-<option>July</option>
+
+<option selected>July</option>
+
 <option>August</option>
+
 <option>September</option>
+
 <option>October</option>
+
 <option>November</option>
+
 <option>December</option>
 
 </select>
 
-<input type="number" id="year" placeholder="Year" value="2026">
-<button id="generateBtn">Generate Tour Plan</button>
-<div id="status"></div>
 </div>
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+<div>
+
+<label>
+
+Year
+
+</label>
+
+<input
+
+id="year"
+
+type="number"
+
+value="2026"
+
+>
+
+</div>
+
+</div>
+
+<button id="generateBtn">
+
+⚡ Generate Tour Plan
+
+</button>
+
+<div id="status">
+
+Waiting for Excel...
+
+</div>
+
+</div>
+
+</div>
+
+<div class="hero-right">
+
+<div class="ai-card">
+
+<div class="circle">
+
+<div class="pulse"></div>
+
+<div class="core">
+
+AI
+
+</div>
+
+</div>
+
+<h3>
+
+AI Processing Engine
+
+</h3>
+
+<ul>
+
+<li>✔ Detect Workbook</li>
+
+<li>✔ Change Month</li>
+
+<li>✔ Update Weekdays</li>
+
+<li>✔ Sunday Replacement</li>
+
+<li>✔ VALUE Optimizer</li>
+
+<li>✔ Download Excel</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</section>
+<section class="features">
+
+<div class="feature-card">
+<div class="icon">📅</div>
+<h3>Automatic Date Update</h3>
+<p>Updates all dates according to the selected month and year.</p>
+</div>
+
+<div class="feature-card">
+<div class="icon">📆</div>
+<h3>Weekday Calculator</h3>
+<p>Automatically recalculates every weekday accurately.</p>
+</div>
+
+<div class="feature-card">
+<div class="icon">🔁</div>
+<h3>Sunday Smart Copy</h3>
+<p>Copies previous month's Sunday plan intelligently.</p>
+</div>
+
+<div class="feature-card">
+<div class="icon">💰</div>
+<h3>VALUE Optimizer</h3>
+<p>Automatically balances VALUE to ₹2,50,000.</p>
+</div>
+
+</section>
+
+<div id="loadingOverlay" class="loading-overlay">
+
+<div class="loader-card">
+
+<div class="loader-circle"></div>
+
+<h2>TourPlan AI</h2>
+
+<p id="loadingText">
+Initializing AI...
+</p>
+
+<div class="progress">
+
+<div class="progress-bar" id="progressBar"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>
+
+© 2026 TourPlan AI
+
+Made with ❤️ using AI
+
+</p>
+
+</footer>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
 <script src="app.js"></script>
+
 </body>
+
 </html>
