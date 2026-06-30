@@ -1,69 +1,143 @@
+// ======================================
+// TourPlan AI - Excel Engine V2
+// ======================================
 
-// =========================================
-// TourPlan AI - Excel Engine v1.0
-// =========================================
+const TourPlanEngine = {
 
-const MONTHS = {
-    January:0,
-    February:1,
-    March:2,
-    April:3,
-    May:4,
-    June:5,
-    July:6,
-    August:7,
-    September:8,
-    October:9,
-    November:10,
-    December:11
-};
+    workbook: null,
+    sheetName: null,
+    sheet: null,
+    rows: null,
 
-const DAYS=[
-"Sunday",
-"Monday",
-"Tuesday",
-"Wednesday",
-"Thursday",
-"Friday",
-"Saturday"
-];
+    load(workbook){
 
-function generateTourPlan(workbook,monthName,year){
+        this.workbook = workbook;
 
-    const sheetName=workbook.SheetNames[0];
+        this.findSheet();
 
-    const sheet=workbook.Sheets[sheetName];
+        this.readRows();
 
-    const rows=XLSX.utils.sheet_to_json(sheet,{
-        header:1
-    });
+    },
 
-    const month=MONTHS[monthName];
+    findSheet(){
 
-    for(let i=5;i<rows.length;i++){
+        const names = this.workbook.SheetNames;
 
-        if(!rows[i][0]) continue;
+        for(const name of names){
 
-        const dayNumber=i-4;
+            const ws = this.workbook.Sheets[name];
 
-        const newDate=new Date(
-            Number(year),
-            month,
-            dayNumber
+            const data = XLSX.utils.sheet_to_json(ws,{header:1});
+
+            for(const row of data){
+
+                if(
+                    row.includes("Date") &&
+                    row.includes("Day")
+                ){
+
+                    this.sheetName = name;
+
+                    this.sheet = ws;
+
+                    return;
+
+                }
+
+            }
+
+        }
+
+        throw new Error("Tour Plan sheet not found.");
+
+    },
+
+    readRows(){
+
+        this.rows = XLSX.utils.sheet_to_json(
+            this.sheet,
+            {header:1}
         );
 
-        rows[i][0]=newDate;
+    },
 
-        rows[i][1]=
-        DAYS[newDate.getDay()].toUpperCase();
+    updateDates(month,year){
+
+        const days=[
+            "SUNDAY",
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY"
+        ];
+
+        const monthNumber={
+            January:0,
+            February:1,
+            March:2,
+            April:3,
+            May:4,
+            June:5,
+            July:6,
+            August:7,
+            September:8,
+            October:9,
+            November:10,
+            December:11
+        };
+
+        const targetMonth=monthNumber[month];
+
+        for(let r=5;r<this.rows.length;r++){
+
+            const cell=this.rows[r][0];
+
+            if(!cell) continue;
+
+            let date;
+
+            if(cell instanceof Date){
+
+                date=new Date(cell);
+
+            }else{
+
+                date=new Date(cell);
+
+            }
+
+            if(isNaN(date)) continue;
+
+            const day=date.getDate();
+
+            const newDate=new Date(
+                Number(year),
+                targetMonth,
+                day
+            );
+
+            this.rows[r][0]=newDate;
+
+            this.rows[r][1]=
+            days[newDate.getDay()];
+
+        }
+
+    },
+
+    save(){
+
+        const newSheet =
+            XLSX.utils.aoa_to_sheet(this.rows);
+
+        this.workbook.Sheets[
+            this.sheetName
+        ] = newSheet;
+
+        return this.workbook;
 
     }
 
-    const newSheet=
-    XLSX.utils.aoa_to_sheet(rows);
-
-    workbook.Sheets[sheetName]=newSheet;
-
-    return workbook;
-
-}
+};
