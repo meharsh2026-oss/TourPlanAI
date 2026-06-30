@@ -81,6 +81,18 @@ generateBtn.addEventListener("click",function(){
 
     }
 
-    alert("Generate button working!");
+    TourPlanEngine.load(workbook);
+
+TourPlanEngine.updateDates(
+    monthSelect.value,
+    yearInput.value
+);
+
+const newWorkbook = TourPlanEngine.save();
+
+XLSX.writeFile(
+    newWorkbook,
+    `TourPlan_${monthSelect.value}_${yearInput.value}.xlsx`
+);
 
 });
