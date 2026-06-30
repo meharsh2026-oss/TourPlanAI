@@ -36,6 +36,7 @@ fileInput.addEventListener("change", function(e){
 
 generateBtn.addEventListener("click",function(){
 
+alert("Generate button clicked");
     if(!workbook){
 
         alert("Please upload Excel first.");
