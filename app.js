@@ -68,3 +68,51 @@ function updateWorkbookInfo(file, sheet, rows){
     updateAI("Workbook Loaded Successfully",100);
 
 }
+// ===============================
+// Generate Tour Plan Button
+// ===============================
+
+generateBtn.addEventListener("click", () => {
+
+    if (!workbook) {
+        alert("Please upload an Excel file first.");
+        return;
+    }
+
+    try {
+
+        updateAI("Loading Tour Plan...", 10);
+
+        TourPlanEngine.load(workbook);
+
+        updateAI("Updating Dates...", 40);
+
+        TourPlanEngine.updateDates(
+            monthSelect.value,
+            yearInput.value
+        );
+
+        updateAI("Creating Workbook...", 70);
+
+        const newWorkbook = TourPlanEngine.save();
+
+        updateAI("Downloading...", 90);
+
+        XLSX.writeFile(
+            newWorkbook,
+            `TourPlan_${monthSelect.value}_${yearInput.value}.xlsx`
+        );
+
+        updateAI("Completed Successfully ✅", 100);
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert(err.message);
+
+        updateAI("Error ❌", 0);
+
+    }
+
+});
